@@ -1,8 +1,5 @@
 name: Build
-on:
-	push:
-		branches:
-			- main
+on: [push]
 jobs:
 	python-formatting:
 		runs-on: ubuntu-latest
