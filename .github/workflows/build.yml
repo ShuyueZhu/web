@@ -14,7 +14,7 @@ jobs:
         run: pip install flake8
       - name: Run flake8
         run: flake8 api/
-  unit tests:
+  unit-tests:
     runs-on: ubuntu-latest
     needs: python-formatting
     steps:
