@@ -29,7 +29,6 @@ jobs:
       - name: Run pytest
         run: pytest api/
   deploy-to-vercel:
-    needs: python-formatting
     needs: unit-tests
     runs-on: ubuntu-latest
     steps:
