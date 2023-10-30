@@ -27,7 +27,7 @@ def process_query(q):
     # minus_pattern = r'What is (\d+) minus (\d+)?'
     # prime_pattern = r'Which of the following numbers are primes: ' + \
     #     r'(\d+), (\d+), (\d+), (\d+), (\d+)?'
-    op = re.search(r'plus|minus|multipled|largest|primes|square', q).group()
+    op = re.search(r'(plus|minus|multipled|largest|primes|square)', q).group()
     nums = list(map(int, re.findall(r'\d+', q)))
 
     # match_addition = re.search(addition_pattern, q)
