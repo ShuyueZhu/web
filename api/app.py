@@ -49,11 +49,8 @@ def process_query(q):
             results = []
             for num in nums:
                 if math.isqrt(num)**2 == num and round(num**(1/3))**3 == num:
-                    results.append(num)
-            if len(results) == 1:
-                return str(results[0])
-            else:
-                return ', '.join(map(str, results))
+                    results.append(str(num))
+            return ', '.join(results)
 
         # match_minus = re.search(minus_pattern, q)
         if op == 'minus':
@@ -72,8 +69,8 @@ def process_query(q):
                 return True
             for num in nums:
                 if is_prime(num):
-                    results.append(num)
-            return ', '.join(map(str, results))
+                    results.append(str(num))
+            return ', '.join(results)
 
     elif q == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
