@@ -28,6 +28,11 @@ largest: (\d+), (\d+), (\d+)?'
     if match_addition:
         num1, num2 = map(int, match_addition.groups())
         return str(num1 + num2)
+    
+    match_multiplication = re.search(multiplication_pattern, q)
+    if match_multiplication:
+        nums = map(int, match_multiplication.groups())
+        return str(max(nums))
 
     match_largest = re.search(largest_pattern, q)
     if match_largest:
