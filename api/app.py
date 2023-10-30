@@ -46,9 +46,11 @@ def process_query(q):
 
         # match_square_cube = re.search(square_cube_pattern, q)
         if op == 'square':
+            results = []
             for num in nums:
                 if math.isqrt(num)**2 == num and round(num**(1/3))**3 == num:
-                    return str(num)
+                    results.append(num)
+            return results
 
         # match_minus = re.search(minus_pattern, q)
         if op == 'minus':
