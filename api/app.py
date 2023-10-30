@@ -45,7 +45,7 @@ def process_query(q):
             return result[0]
         else:
             return result
-    
+ 
     match_minus = re.match(minus_pattern, q)
     if match_minus:
         num1, num2 = map(int, match_minus.groups())
