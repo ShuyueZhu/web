@@ -46,11 +46,12 @@ def process_query(q):
 
         # match_square_cube = re.search(square_cube_pattern, q)
         if op == 'square':
-            results = []
-            for num in nums:
-                if math.isqrt(num)**2 == num and round(num**(1/3))**3 == num:
-                    results.append(str(num))
-            return ', '.join(results)
+
+            def is_square_and_cube(n):
+                root = round(n**(1/6))
+                return root**6 == n
+            result_numbers = [num for num in nums if is_square_and_cube(num)]
+            return ', '.join(map(str, result_numbers))
 
         # match_minus = re.search(minus_pattern, q)
         if op == 'minus':
@@ -58,7 +59,6 @@ def process_query(q):
 
         # match_prime = re.search(prime_pattern, q)
         if op == 'primes':
-            results = []
 
             def is_prime(n):
                 if n <= 1:
@@ -67,10 +67,8 @@ def process_query(q):
                     if n % i == 0:
                         return False
                 return True
-            for num in nums:
-                if is_prime(num):
-                    results.append(str(num))
-            return ', '.join(results)
+            primes = [str(num) for num in nums if is_prime(num)]
+            return ', '.join(primes)
 
     elif q == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
