@@ -50,7 +50,10 @@ def process_query(q):
             for num in nums:
                 if math.isqrt(num)**2 == num and round(num**(1/3))**3 == num:
                     results.append(num)
-            return results
+            if len(results) == 1:
+                return str(results[0])
+            else:
+                return results
 
         # match_minus = re.search(minus_pattern, q)
         if op == 'minus':
