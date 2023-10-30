@@ -21,7 +21,7 @@ def process_query(q):
         return "Unknown"
     elif q == "What is your name?":
         return "SY"
-    elif q == r'What is (\d+) plus (\d+)':
+    elif q == r'What is (\d+) plus (\d+)?':
         input = q.split("plus")
         num1 = int(input[0].split("is")[1].strip())
         num2 = int(input[1].strip())
