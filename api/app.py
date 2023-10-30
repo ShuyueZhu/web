@@ -17,48 +17,44 @@ def submit():
 
 
 def process_query(q):
-    addition_pattern = r'What is (\d+) plus (\d+)?'
-    multiplication_pattern = r'What is (\d+) multiplied by (\d+)?'
-    largest_pattern = r'Which of the following numbers is the largest:' + \
-        r'(\d+), (\d+), (\d+)?'
-    square_cube_pattern = r'Which of the following numbers is both ' + \
-        r'a square and a cube' + \
-        r': (\d+), (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)?'
-    minus_pattern = r'What is (\d+) minus (\d+)?'
-    prime_pattern = r'Which of the following numbers are primes: ' + \
-        r'(\d+), (\d+), (\d+), (\d+), (\d+)?'
+    # addition_pattern = r'What is (\d+) plus (\d+)?'
+    # multiplication_pattern = r'What is (\d+) multiplied by (\d+)?'
+    # largest_pattern = r'Which of the following numbers is the largest:' + \
+    #     r'(\d+), (\d+), (\d+)?'
+    # square_cube_pattern = r'Which of the following numbers is both ' + \
+    #     r'a square and a cube' + \
+    #     r': (\d+), (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)?'
+    # minus_pattern = r'What is (\d+) minus (\d+)?'
+    # prime_pattern = r'Which of the following numbers are primes: ' + \
+    #     r'(\d+), (\d+), (\d+), (\d+), (\d+)?'
+    op = re.search(r'plus|minus|multipled|largest|primes|square', q).group()
+    nums = list(map(int, re.findall(r'\d+', q)))
 
-    match_addition = re.search(addition_pattern, q)
-    if match_addition:
-        num1, num2 = map(int, match_addition.groups())
-        return str(num1 + num2)
+    # match_addition = re.search(addition_pattern, q)
+    if op == 'plus':
+        return str(sum(nums))
 
-    match_multiplication = re.search(multiplication_pattern, q)
-    if match_multiplication:
-        num1, num2 = map(int, match_multiplication.groups())
-        return str(num1*num2)
+    # match_multiplication = re.search(multiplication_pattern, q)
+    if op == 'multipled':
+        return str(nums[0] * nums[1])
 
-    match_largest = re.search(largest_pattern, q)
-    if match_largest:
-        nums = map(int, match_largest.groups())
+    # match_largest = re.search(largest_pattern, q)
+    if op == 'largest':
         return str(max(nums))
 
-    match_square_cube = re.search(square_cube_pattern, q)
-    if match_square_cube:
-        nums = map(int, match_square_cube.groups())
+    # match_square_cube = re.search(square_cube_pattern, q)
+    if op == 'square':
         for num in nums:
             if math.isqrt(num)**2 == num and round(num**(1/3))**3 == num:
                 return str(num)
 
-    match_minus = re.search(minus_pattern, q)
-    if match_minus:
-        num1, num2 = map(int, match_minus.groups())
-        return str(num1 - num2)
+    # match_minus = re.search(minus_pattern, q)
+    if op == 'minus':
+        return str(nums[0] - nums[1])
 
-    match_prime = re.search(prime_pattern, q)
-    if match_prime:
+    # match_prime = re.search(prime_pattern, q)
+    if op == 'primes':
         results = []
-        nums = map(int, match_prime.groups())
 
         def is_prime(n):
             if n <= 1:
