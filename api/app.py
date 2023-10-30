@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, re, math
+from flask import Flask, render_template, request
+import re
+import math
 app = Flask(__name__)
 addition_pattern = r'What is (\d+) plus (\d+)?'
 multiplication_pattern = r'What is (\d+) multiplied by (\d+)? '
