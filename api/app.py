@@ -54,23 +54,24 @@ def process_query(q):
     if match_minus:
         num1, num2 = map(int, match_minus.groups())
         return str(num1 - num2)
-    
+
     match_prime = re.search(prime_pattern, q)
     if match_prime:
         results = []
         nums = map(int, match_prime.groups())
+
+
         def is_prime(n):
             if n <= 1:
                 return False
-            for i in range(2,int(n**0.5)+1):
-                if n % i ==0:
+            for i in range(2, int(n**0.5) + 1):
+                if n % i == 0:
                     return False
             return True
         for num in nums:
             if is_prime(num):
                 results.append(num)
         return results
-    
 
     if q == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
