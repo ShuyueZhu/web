@@ -56,14 +56,14 @@ largest: (\d+), (\d+), (\d+)?'
         num1, num2 = map(int, match_minus.groups())
         return str(num1 - num2)
 
-#    if q == "dinosaurs":
-#        return "Dinosaurs ruled the Earth 200 million years ago"
-#    elif q == "asteroids":
-#        return "Unknown"
-#    elif q == "What is your name?":
-#        return "ZSY"
-#    else:
-#        return "Unrecognized input!!!"
+    if q == "dinosaurs":
+        return "Dinosaurs ruled the Earth 200 million years ago"
+    elif q == "asteroids":
+        return "Unknown"
+    elif q == "What is your name?":
+        return "ZSY"
+    else:
+        return "Unrecognized input!!!"
 
 
 @app.route('/query', methods=['GET'])
