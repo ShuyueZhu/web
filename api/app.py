@@ -25,6 +25,9 @@ def process_query(q):
         r'a square and a cube' + \
         r': (\d+), (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)?'
     minus_pattern = r'What is (\d+) minus (\d+)?'
+    prime_pattern = r'Which of the following numbers are primes: ' + \
+        r'(\d+), (\d+), (\d+), (\d+), (\d+)?'
+
     match_addition = re.search(addition_pattern, q)
     if match_addition:
         num1, num2 = map(int, match_addition.groups())
@@ -43,19 +46,31 @@ def process_query(q):
     match_square_cube = re.search(square_cube_pattern, q)
     if match_square_cube:
         nums = map(int, match_square_cube.groups())
-        result = []
         for num in nums:
             if math.isqrt(num)**2 == num and round(num**(1/3))**3 == num:
-                result.append(num)
-        if len(result) == 1:
-            return result[0]
-        else:
-            return result
+                return str(num)
 
     match_minus = re.search(minus_pattern, q)
     if match_minus:
         num1, num2 = map(int, match_minus.groups())
         return str(num1 - num2)
+    
+    match_prime = re.search(prime_pattern, q)
+    if match_prime:
+        results = []
+        nums = map(int, match_prime.groups())
+        def is_prime(n):
+            if n <= 1:
+                return False
+            for i in range(2,int(n**0.5)+1):
+                if n % i ==0:
+                    return False
+            return True
+        for num in nums:
+            if is_prime(num):
+                results.append(num)
+        return results
+    
 
     if q == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
