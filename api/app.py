@@ -14,19 +14,19 @@ def submit():
     return render_template("hello.html", name=input_name, age=input_age)
 
 
-@app.route("/query", methods=["GET"])
-def get_query():
-    query = request.args.get('q')
-    return process_query(query)
-
-
-def process_query(query):
-    if query == "dinosaurs":
-        result = "Dinosaurs ruled the Earth 200 million years ago"
-    elif query == "asteroids":
-        result = "Unknown"
-    elif query == "What is your name?":
-        result == "SY"
+def process_query(q):
+    if q == "dinosaurs":
+        return "Dinosaurs ruled the Earth 200 million years ago"
+    elif q == "asteroids":
+        return "Unknown"
+    elif q == "What is your name?":
+        return "SY"
     else:
-        result == "input again"
+        return "Unrecognized input!!!"
+
+
+@app.route('/query', methods=['GET'])
+def query_route():
+    query = request.args.get('q')
+    result = process_query(query)
     return result
