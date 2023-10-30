@@ -8,6 +8,7 @@ largest_pattern = r'Which of the following numbers is both a square \
 and a cube: (\d+), (\d+), (\d+)?'
 square_cube_pattern = r'Which of the following numbers is the \
 largest: (\d+), (\d+), (\d+)?'
+minus_pattern = r'What is (\d+) minus (\d+)?'
 
 
 @app.route("/")
@@ -44,15 +45,20 @@ def process_query(q):
             return result[0]
         else:
             return result
+    
+    match_minus = re.match(minus_pattern, q)
+    if match_minus:
+        num1, num2 = map(int, match_minus.groups())
+        return num1-num2
 
-    if q == "dinosaurs":
-        return "Dinosaurs ruled the Earth 200 million years ago"
-    elif q == "asteroids":
-        return "Unknown"
-    elif q == "What is your name?":
-        return "ZSY"
-    else:
-        return "Unrecognized input!!!"
+#    if q == "dinosaurs":
+#        return "Dinosaurs ruled the Earth 200 million years ago"
+#    elif q == "asteroids":
+#        return "Unknown"
+#    elif q == "What is your name?":
+#        return "ZSY"
+#    else:
+#        return "Unrecognized input!!!"
 
 
 @app.route('/query', methods=['GET'])
