@@ -19,10 +19,10 @@ def submit():
 def process_query(q):
     addition_pattern = r'What is (\d+) plus (\d+)?'
     multiplication_pattern = r'What is (\d+) multiplied by (\d+)?'
-    largest_pattern = r'Which of the following numbers is both a square' + \
-        r'and a cube: (\d+), (\d+), (\d+)?'
-    square_cube_pattern = r'Which of the following numbers is the largest' + \
-        r':(\d+), (\d+), (\d+)?'
+    largest_pattern = r'Which of the following numbers is the largest:' + \
+        r'(\d+), (\d+), (\d+)?'
+    square_cube_pattern = r'Which of the following numbers is both a square and a cube' + \
+        r': (\d+), (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)?'
     minus_pattern = r'What is (\d+) minus (\d+)?'
     match_addition = re.search(addition_pattern, q)
     if match_addition:
@@ -31,13 +31,13 @@ def process_query(q):
 
     match_multiplication = re.search(multiplication_pattern, q)
     if match_multiplication:
-        nums = map(int, match_multiplication.groups())
-        return str(max(nums))
+        num1, num2 = map(int, match_multiplication.groups())
+        return str(num1*num2)
 
     match_largest = re.search(largest_pattern, q)
     if match_largest:
-        num1, num2 = map(int, match_largest.groups())
-        return str(num1 * num2)
+        nums = map(int, match_largest.groups())
+        return str(max(nums))
 
     match_square_cube = re.search(square_cube_pattern, q)
     if match_square_cube:
@@ -71,3 +71,8 @@ def query_route():
     query = request.args.get('q')
     result = process_query(query)
     return result
+
+if __name__ == '__main__':
+    q='What is 3 multiplied by 5?'
+    result = process_query(q)
+    print(result)
