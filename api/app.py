@@ -27,5 +27,6 @@ def process_query(query):
         result = "Unknown"
     elif query == "What is your name?":
         result == "SY"
-
+    else:
+        result == "input again"
     return result
