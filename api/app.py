@@ -21,7 +21,8 @@ def process_query(q):
     multiplication_pattern = r'What is (\d+) multiplied by (\d+)?'
     largest_pattern = r'Which of the following numbers is the largest:' + \
         r'(\d+), (\d+), (\d+)?'
-    square_cube_pattern = r'Which of the following numbers is both a square and a cube' + \
+    square_cube_pattern = r'Which of the following numbers is both ' + \
+        r'a square and a cube' + \
         r': (\d+), (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)?'
     minus_pattern = r'What is (\d+) minus (\d+)?'
     match_addition = re.search(addition_pattern, q)
@@ -71,8 +72,3 @@ def query_route():
     query = request.args.get('q')
     result = process_query(query)
     return result
-
-if __name__ == '__main__':
-    q='What is 3 multiplied by 5?'
-    result = process_query(q)
-    print(result)
