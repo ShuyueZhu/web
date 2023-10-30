@@ -7,6 +7,7 @@ and a cube: (\d+), (\d+), (\d+)?'
 square_cube_pattern = r'Which of the following numbers is the \
 largest: (\d+), (\d+), (\d+)?'
 
+
 @app.route("/")
 def hello():
     return render_template("index.html")
@@ -24,12 +25,12 @@ def process_query(q):
     if match_addition:
         num1, num2 = map(int, match_addition.groups())
         return num1+num2
-    
+
     match_largest = re.match(largest_pattern, q)
     if match_largest:
         num1, num2 = map(int, match_largest.groups())
         return num1*num2
-    
+
     match_square_cube = re.match(square_cube_pattern, q)
     if match_square_cube:
         nums = map(int, match_square_cube.groups())
@@ -41,7 +42,7 @@ def process_query(q):
             return result[0]
         else:
             return result
-    
+
     if q == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
     elif q == "asteroids":
