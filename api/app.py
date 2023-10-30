@@ -60,7 +60,6 @@ def process_query(q):
         results = []
         nums = map(int, match_prime.groups())
 
-
         def is_prime(n):
             if n <= 1:
                 return False
