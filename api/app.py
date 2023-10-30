@@ -53,7 +53,7 @@ def process_query(q):
             if len(results) == 1:
                 return str(results[0])
             else:
-                return results
+                return [str(_) for _ in results]
 
         # match_minus = re.search(minus_pattern, q)
         if op == 'minus':
