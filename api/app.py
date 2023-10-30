@@ -25,7 +25,7 @@ def process_query(q):
         input = q.split("plus")
         num1 = int(input[0].split("is")[1].strip())
         num2 = int(input[1].strip())
-        result = num1+num2
+        return num1+num2
     else:
         return "Unrecognized input!!!"
 
