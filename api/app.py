@@ -53,7 +53,7 @@ def process_query(q):
             if len(results) == 1:
                 return str(results[0])
             else:
-                return [str(_) for _ in results]
+                return ', '.join(map(str, results))
 
         # match_minus = re.search(minus_pattern, q)
         if op == 'minus':
@@ -73,7 +73,7 @@ def process_query(q):
             for num in nums:
                 if is_prime(num):
                     results.append(num)
-            return results
+            return ', '.join(map(str, results))
 
     elif q == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
