@@ -2,13 +2,6 @@ from flask import Flask, render_template, request
 import re
 import math
 app = Flask(__name__)
-addition_pattern = r'What is (\d+) plus (\d+)?'
-multiplication_pattern = r'What is (\d+) multiplied by (\d+)? '
-largest_pattern = r'Which of the following numbers is both a square \
-and a cube: (\d+), (\d+), (\d+)?'
-square_cube_pattern = r'Which of the following numbers is the \
-largest: (\d+), (\d+), (\d+)?'
-minus_pattern = r'What is (\d+) minus (\d+)?'
 
 
 @app.route("/")
@@ -24,17 +17,24 @@ def submit():
 
 
 def process_query(q):
-    match_addition = re.match(addition_pattern, q)
+    addition_pattern = r'What is (\d+) plus (\d+)?'
+    multiplication_pattern = r'What is (\d+) multiplied by (\d+)? '
+    largest_pattern = r'Which of the following numbers is both a square \
+and a cube: (\d+), (\d+), (\d+)?'
+    square_cube_pattern = r'Which of the following numbers is the \
+largest: (\d+), (\d+), (\d+)?'
+    minus_pattern = r'What is (\d+) minus (\d+)?'
+    match_addition = re.search(addition_pattern, q)
     if match_addition:
         num1, num2 = map(int, match_addition.groups())
-        return num1+num2
+        return str(num1 + num2)
 
-    match_largest = re.match(largest_pattern, q)
+    match_largest = re.search(largest_pattern, q)
     if match_largest:
         num1, num2 = map(int, match_largest.groups())
-        return num1*num2
+        return str(num1 * num2)
 
-    match_square_cube = re.match(square_cube_pattern, q)
+    match_square_cube = re.search(square_cube_pattern, q)
     if match_square_cube:
         nums = map(int, match_square_cube.groups())
         result = []
@@ -45,11 +45,11 @@ def process_query(q):
             return result[0]
         else:
             return result
- 
-    match_minus = re.match(minus_pattern, q)
+
+    match_minus = re.search(minus_pattern, q)
     if match_minus:
         num1, num2 = map(int, match_minus.groups())
-        return num1-num2
+        return str(num1 - num2)
 
 #    if q == "dinosaurs":
 #        return "Dinosaurs ruled the Earth 200 million years ago"
