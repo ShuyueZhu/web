@@ -18,11 +18,9 @@ def submit():
 
 def process_query(q):
     addition_pattern = r'What is (\d+) plus (\d+)?'
-    multiplication_pattern = r'What is (\d+) multiplied by (\d+)? '
-    largest_pattern = r'Which of the following numbers is both a square \
-and a cube: (\d+), (\d+), (\d+)?'
-    square_cube_pattern = r'Which of the following numbers is the \
-largest: (\d+), (\d+), (\d+)?'
+    multiplication_pattern = r'What is (\d+) multiplied by (\d+)?'
+    largest_pattern = r'Which of the following numbers is both a square and a cube: (\d+), (\d+), (\d+)?'
+    square_cube_pattern = r'Which of the following numbers is the largest: (\d+), (\d+), (\d+)?'
     minus_pattern = r'What is (\d+) minus (\d+)?'
     match_addition = re.search(addition_pattern, q)
     if match_addition:
