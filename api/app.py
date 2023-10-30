@@ -25,4 +25,7 @@ def process_query(query):
         result = "Dinosaurs ruled the Earth 200 million years ago"
     elif query == "asteroids":
         result = "Unknown"
+    elif query == "What is your name?":
+        result == "SY"
+
     return result
