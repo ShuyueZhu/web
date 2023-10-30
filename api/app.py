@@ -27,7 +27,7 @@ def process_query(q):
     # minus_pattern = r'What is (\d+) minus (\d+)?'
     # prime_pattern = r'Which of the following numbers are primes: ' + \
     #     r'(\d+), (\d+), (\d+), (\d+), (\d+)?'
-    op = re.search(r'(plus|minus|multipled|largest|primes|square)', q)
+    op = re.search(r'(plus|minus|multiplied|largest|primes|square)', q)
     if op:
         op = op.group()
         nums = list(map(int, re.findall(r'\d+', q)))
@@ -37,7 +37,7 @@ def process_query(q):
             return str(sum(nums))
 
         # match_multiplication = re.search(multiplication_pattern, q)
-        if op == 'multipled':
+        if op == 'multiplied':
             return str(nums[0] * nums[1])
 
         # match_largest = re.search(largest_pattern, q)
