@@ -50,7 +50,7 @@ def process_query(q):
     elif q == "asteroids":
         return "Unknown"
     elif q == "What is your name?":
-        return "SY"
+        return "ZSY"
     else:
         return "Unrecognized input!!!"
 
