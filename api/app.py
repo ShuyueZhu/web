@@ -12,8 +12,9 @@ def hello_world():
     return render_template("index.html")
 
 
-def get_github_repos(username):
-    github_username = "ShuyueZhu"  # Replace with your GitHub username
+@app.route("/submit3", methods=["POST"])
+def submit3():
+    github_username = request.form.get('username')  # Replace with your GitHub username
     response = requests.get(f"https://api.github.com/ \
 users/{github_username}/repos")
 
@@ -23,16 +24,11 @@ users/{github_username}/repos")
     else:
         return "Failed to fetch GitHub repositories"
 
-
-@app.route("/submit3", methods=["POST"])
-def submit3():
-    repos = []
-
     if request.method == 'POST':
         username = request.form['username']
         repos = get_github_repos(username)
 
-    return render_template('index.html', repos=repos)
+    return render_template('name.html', repos=repos)
 
 
 @app.route("/submit", methods=["POST"])
