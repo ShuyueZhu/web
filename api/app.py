@@ -7,7 +7,7 @@ import requests
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def hello_world():
     return render_template("index.html")
 
@@ -25,8 +25,12 @@ users/{github_username}/repos")
 
 
 def index():
-    username = request.form['username']
-    repos = get_github_repos(username)
+    repos = []
+
+    if request.method == 'POST':
+        username = request.form['username']
+        repos = get_github_repos(username)
+    
     return render_template('index.html', repos=repos)
 
 
