@@ -27,7 +27,7 @@ users/{github_username}/repos")
 def index():
     username = request.form['username']
     repos = get_github_repos(username)
-    return render_template('index.html', repos = repos)
+    return render_template('index.html', repos=repos)
 
 
 @app.route("/submit", methods=["POST"])
