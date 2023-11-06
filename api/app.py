@@ -10,6 +10,8 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     return render_template("index.html")
+
+
 def get_github_repos():
     github_username = "ShuyueZhu"  # Replace with your GitHub username
     response = requests.get(f"https://api.github.com/ \
