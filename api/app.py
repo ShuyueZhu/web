@@ -7,12 +7,13 @@ import requests
 app = Flask(__name__)
 
 
-def get_github_repos(username):
-    github_username = "ShuyueZhu"
-    response = requests.get(f"https://api.github.com/ \
-users/{github_username}/repos")
+def get_github_repos(u):
+    response = requests.get(f"https://api.github.com/users/{u}/repos")
     if response.status_code == 200:
         repos = response.json()
+        print("Read!")
+        for repo in repos:
+            print(repo["full_name"])
         return repos
     else:
         return "Failed to fetch GitHub repositories"
@@ -29,7 +30,7 @@ def submit3():
         username = request.form.get('username')
         repos = get_github_repos(username)
 
-    return render_template('name.html', repos=repos)
+    return render_template("name.html", repos=repos)
 
 
 @app.route("/submit", methods=["POST"])
