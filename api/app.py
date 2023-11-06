@@ -10,6 +10,16 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     return render_template("index.html")
+def get_github_repos():
+    github_username = "ShuyueZhu"  # Replace with your GitHub username
+    response = requests.get(f"https://api.github.com/ \
+users/{github_username}/repos")
+
+    if response.status_code == 200:
+        repos = response.json()
+        return render_template('repos.html', repos=repos)
+    else:
+        return "Failed to fetch GitHub repositories"
 
 
 @app.route("/submit", methods=["POST"])
@@ -106,15 +116,3 @@ def process_query(query_parameter):
     else:
         return "Unknown"
 
-
-@app.route('/')
-def get_github_repos():
-    github_username = "ShuyueZhu"  # Replace with your GitHub username
-    response = requests.get(f"https://api.github.com/ \
-users/{github_username}/repos")
-
-    if response.status_code == 200:
-        repos = response.json()
-        return render_template('repos.html', repos=repos)
-    else:
-        return "Failed to fetch GitHub repositories"
