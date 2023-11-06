@@ -30,7 +30,7 @@ def index():
     if request.method == 'POST':
         username = request.form['username']
         repos = get_github_repos(username)
-    
+
     return render_template('index.html', repos=repos)
 
 
