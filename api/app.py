@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request
 import re
+import math
+
+
 app = Flask(__name__)
 
 
 @app.route("/")
-def hello():
+def hello_world():
     return render_template("index.html")
 
 
@@ -21,72 +24,83 @@ def submit2():
     return render_template("hello_github.html", name=input_name)
 
 
-def process_query(q):
-    addition_pattern = r'What is (\d+) plus (\d+)?'
-    multiplication_pattern = r'What is (\d+) multiplied by (\d+)?'
-    largest_pattern = r'Which of the following numbers is the largest:' + \
-        r'(\d+), (\d+), (\d+)?'
-    square_cube_pattern = r'Which of the following numbers is both ' + \
-        r'a square and a cube' + \
-        r': (\d+), (\d+), (\d+), (\d+), (\d+), (\d+), (\d+)?'
-    minus_pattern = r'What is (\d+) minus (\d+)?'
-    prime_pattern = r'Which of the following numbers are primes: ' + \
-        r'(\d+), (\d+), (\d+), (\d+), (\d+)?'
-    op = re.search(r'(plus|minus|multiplied|largest|primes|square)', q)
-    if op:
-        op = op.group()
-        nums = list(map(int, re.findall(r'\d+', q)))
-
-        match_addition = re.search(addition_pattern, q)
-        if op == 'plus':
-            return str(sum(nums))
-
-        match_multiplication = re.search(multiplication_pattern, q)
-        if op == 'multiplied':
-            return str(nums[0] * nums[1])
-
-        match_largest = re.search(largest_pattern, q)
-        if op == 'largest':
-            return str(max(nums))
-
-        match_square_cube = re.search(square_cube_pattern, q)
-        if op == 'square':
-
-            def is_square_and_cube(n):
-                root = round(n**(1/6))
-                return root**6 == n
-            result_numbers = [num for num in nums if is_square_and_cube(num)]
-            return ', '.join(map(str, result_numbers))
-
-        match_minus = re.search(minus_pattern, q)
-        if op == 'minus':
-            return str(nums[0] - nums[1])
-
-        match_prime = re.search(prime_pattern, q)
-        if op == 'primes':
-
-            def is_prime(n):
-                if n <= 1:
-                    return False
-                for i in range(2, int(n**0.5) + 1):
-                    if n % i == 0:
-                        return False
-                return True
-            primes = [str(num) for num in nums if is_prime(num)]
-            return ', '.join(primes)
-
-        elif q == "dinosaurs":
-            return "Dinosaurs ruled the Earth 200 million years ago"
-        elif q == "asteroids":
-            return "Unknown"
-        elif q == "What is your name?":
-            return "ZSY"
-        else:
-            return "Unrecognized input!!!"
+@app.route("/query", methods=["GET"])
+def get_query_parameter():
+    query_parameter = request.args.get("q")
+    return process_query(query_parameter)
 
 
-@app.route('/query', methods=['GET'])
-def query_route():
-   query = request.args.get('q')
-   result = process_query(query)
-   return result
+def is_prime(i):
+    if i <= 1 or i % 2 == 0 or i % 3 == 0:
+        return False
+    elif i <= 3:
+        return True
+    else:
+        k = 5
+        while k * k <= i:
+            if i % k == 0 or i % (k + 2) == 0:
+                return False
+            k += 6
+        return True
+
+
+def process_query(query_parameter):
+    pattern_multiplied = r'What is \d+ multiplied by \d+\?$'
+    large = r'Which of the following numbers is the largest: (\d+)(, \d+)*\?$'
+    pattern_plus = r'What is \d+ plus \d+\?$'
+    cubes = r'[A-Za-z\s]+ is both a square and a cube: (\d+)(, \d+)*\?$'
+    prime = r'Which of the following numbers are primes: (\d+)(, \d+)*\?$'
+    pattern_minus = r'What is \d+ minus \d+\?$'
+    pattern_num = r'\d+'
+
+    if re.match(pattern_multiplied, query_parameter):
+        matches = re.findall(pattern_num, query_parameter)
+        res = 1
+        for i in matches:
+            res = res * int(i)
+        return str(res)
+
+    elif re.match(large, query_parameter):
+        matches = re.findall(pattern_num, query_parameter)
+        int_ls = [int(i) for i in matches]
+        return str(max(int_ls))
+
+    elif re.match(pattern_plus, query_parameter):
+        matches = re.findall(pattern_num, query_parameter)
+        res = 0
+        for i in matches:
+            res = res + int(i)
+        return str(res)
+
+    elif re.match(cubes, query_parameter):
+        matches = re.findall(pattern_num, query_parameter)
+        res = ""
+        for i in matches:
+            i = int(i)
+            square_root = round(math.sqrt(i), 5)
+            cube_root = round(i ** (1/3), 5)
+            if square_root.is_integer() and cube_root.is_integer():
+                res = res + str(i) + ", "
+        return res[0:-2]
+
+    elif re.match(pattern_minus, query_parameter):
+        matches = re.findall(pattern_num, query_parameter)
+        return str(int(matches[0])-int(matches[1]))
+
+    elif re.match(prime, query_parameter):
+        matches = re.findall(pattern_num, query_parameter)
+        res = ""
+        for i in matches:
+            i = int(i)
+            if is_prime(i):
+                res = res + str(i) + ", "
+        return res[0:-2]
+
+    elif query_parameter == "What is your name?":
+        return "KFC V50"
+
+    elif query_parameter == "dinosaurs":
+        return "Dinosaurs ruled the Earth 200 million years ago"
+
+    else:
+        return "Unknown"
