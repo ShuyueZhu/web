@@ -7,7 +7,7 @@ import requests
 app = Flask(__name__)
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 def hello_world():
     return render_template("index.html")
 
@@ -24,7 +24,8 @@ users/{github_username}/repos")
         return "Failed to fetch GitHub repositories"
 
 
-def index():
+@app.route("/submit3", methods=["POST"])
+def submit3():
     repos = []
 
     if request.method == 'POST':
