@@ -1,12 +1,28 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>GitHub Repositories</title>
+    <title>GitHub Repositories and Commits</title>
 </head>
 <body>
     <h1>GitHub Repositories</h1>
     <ul>
         {% for repo in repos %}
-            <li>{{ repo.full_name }}</li>
+            <li>
+                {{ repo['name'] }} (Last Updated: {{ repo['updated_at'] }})
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h1>Latest Commit Information</h1>
+    <ul>
+        {% for repo, info in commit_info.items() %}
+            <li>
+                Repository: {{ repo }}<br>
+                Latest Commit Hash: {{ info['latest_commit_hash'] }}<br>
+                Latest Commit Author: {{ info['latest_commit_author'] }}<br>
+                Latest Commit Date: {{ info['latest_commit_date'] }}<br>
+                Latest Commit Message: {{ info['latest_commit_message'] }}
+            </li>
         {% endfor %}
     </ul>
 </body>

@@ -7,18 +7,6 @@ import requests
 app = Flask(__name__)
 
 
-def get_github_repos(u):
-    response = requests.get(f"https://api.github.com/users/{u}/repos")
-    if response.status_code == 200:
-        repos = response.json()
-        print("Read!")
-        for repo in repos:
-            print(repo["full_name"])
-        return repos
-    else:
-        return "Failed to fetch GitHub repositories"
-
-
 @app.route("/")
 def hello_world():
     return render_template("index.html")
@@ -26,11 +14,30 @@ def hello_world():
 
 @app.route("/submit3", methods=['POST'])
 def submit3():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        repos = get_github_repos(username)
+    u = "ShuyueZhu"
+    # get respiratory information
+    repo_response = requests.get(f"https://api.github.com/users/{u}/repos")
+    if repo_response.status_code == 200:
+        repos = repo_response.json()
+    else:
+        repos = []
 
-    return render_template("name.html", repos=repos)
+    # get lastest information
+    commit_info = {}
+    for repo in repos:
+        commits_response = requests.get(f"https://api.github.com/repos/{u}/{repo['name']}/commits")
+        if commits_response.status_code == 200:
+            commits = commits_response.json()
+            if commits:
+                latest_commit = commits[0]
+                commit_info[repo['name']] = {
+                    "latest_commit_hash": latest_commit['sha'],
+                    "latest_commit_author": latest_commit['commit']['author']['name'],
+                    "latest_commit_date": latest_commit['commit']['author']['date'],
+                    "latest_commit_message": latest_commit['commit']['message']
+                }
+
+    return render_template("name.html", repos=repos, commit_info=commit_info)
 
 
 @app.route("/submit", methods=["POST"])
