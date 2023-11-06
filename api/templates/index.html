@@ -4,14 +4,6 @@
  <body>
    <h1>Hello World</h1>
    <p>Hello World</p>
-   <h2>GitHub Repositories</h2>
-   <ul>
-       {% for repo in repos %}
-           <li>{{ repo.full_name }}</li>
-       {% endfor %}
-   </ul>
- </body>
-</html>
 <form action="/submit" method="post">
 <label for="namefield">Name:</label>
 <input type="text" id="namefield" name="name">
@@ -24,3 +16,16 @@
   <input type="text" id="github_namefield" name="github_name">
   <input type="submit" value="Submit">
  </form>
+ <form method="post">
+  <label for="username">GitHub Usename:</label>
+  <input type="text" name="username" id="username" required>
+  <input type="submit" value="Get Repositories">
+ </form>
+ <h2>GitHub Repositories for {{username}}</h2>
+ <ul>
+     {% for repo in repos %}
+         <li>{{ repo.full_name }}</li>
+     {% endfor %}
+ </ul>
+ </body>
+</html>

@@ -19,9 +19,14 @@ users/{github_username}/repos")
 
     if response.status_code == 200:
         repos = response.json()
-        return render_template('repos.html', repos=repos)
+        return repos
     else:
         return "Failed to fetch GitHub repositories"
+    
+def index():
+    username = request.form['username']
+    repos = get_github_repos(username)
+    return render_template('index.html',repo = repos)
 
 
 @app.route("/submit", methods=["POST"])
