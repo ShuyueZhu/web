@@ -12,7 +12,7 @@ def hello_world():
     return render_template("index.html")
 
 
-def get_github_repos():
+def get_github_repos(username):
     github_username = "ShuyueZhu"  # Replace with your GitHub username
     response = requests.get(f"https://api.github.com/ \
 users/{github_username}/repos")
