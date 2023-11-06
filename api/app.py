@@ -97,7 +97,7 @@ def process_query(query_parameter):
         return res[0:-2]
 
     elif query_parameter == "What is your name?":
-        return "KFC V50"
+        return "ZSY"
 
     elif query_parameter == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
