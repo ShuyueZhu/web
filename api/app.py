@@ -18,7 +18,6 @@ users/{github_username}/repos")
         return "Failed to fetch GitHub repositories"
 
 
-
 @app.route("/")
 def hello_world():
     return render_template("index.html")
