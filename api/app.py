@@ -117,4 +117,3 @@ def process_query(query_parameter):
 
     else:
         return "Unknown"
-
