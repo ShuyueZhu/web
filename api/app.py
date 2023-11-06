@@ -15,6 +15,12 @@ def submit():
     return render_template("hello.html", name=input_name, age=input_age)
 
 
+@app.route("/submit", methods=["POST"])
+def submit():
+    input_name = request.form.get("name")
+    return render_template("hello_github.html", name=input_name)
+
+
 def process_query(q):
     # addition_pattern = r'What is (\d+) plus (\d+)?'
     # multiplication_pattern = r'What is (\d+) multiplied by (\d+)?'
