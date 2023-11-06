@@ -22,11 +22,12 @@ users/{github_username}/repos")
         return repos
     else:
         return "Failed to fetch GitHub repositories"
-    
+
+
 def index():
     username = request.form['username']
     repos = get_github_repos(username)
-    return render_template('index.html',repo = repos)
+    return render_template('index.html', repos = repos)
 
 
 @app.route("/submit", methods=["POST"])
