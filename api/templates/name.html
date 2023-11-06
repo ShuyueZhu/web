@@ -1,0 +1,8 @@
+<body>
+    <h1>GitHub Repositories</h1>
+       <ul>
+           {% for repo in repos %}
+               <li>{{ repo.full_name }}</li>
+           {% endfor %}
+       </ul>
+</body>
