@@ -110,11 +110,12 @@ def process_query(query_parameter):
 @app.route('/')
 def get_github_repos():
     github_username = "ShuyueZhu"  # Replace with your GitHub username
-    response = requests.get(f"https://api.github.com/users/{github_username}/repos")
-    
+    response = requests.get(f"https://api.github.com/ \
+users/{github_username}/repos")
+
     if response.status_code == 200:
         repos = response.json()
         return render_template('repos.html', repos=repos)
     else:
         return "Failed to fetch GitHub repositories"
-    
+ 
