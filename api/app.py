@@ -12,13 +12,12 @@ def hello():
 def submit():
     input_name = request.form.get("name")
     input_age = request.form.get("age")
-    return render_template("hello.html", name=input_name, age=input_age)
-
-
-@app.route("/submit", methods=["POST"])
-def submit():
-    input_name = request.form.get("name")
-    return render_template("hello_github.html", name=input_name)
+    input_name_github = request.form.get("gitname")
+    button_clicked = request.form['submit_button']
+    if button_clicked == 'Submit1':
+        return render_template("hello.html", name=input_name, age=input_age)
+    elif button_clicked == 'Submit2':
+        return render_template("hello_github.html", name=input_name_github)
 
 
 def process_query(q):
