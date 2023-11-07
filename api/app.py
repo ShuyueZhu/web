@@ -7,6 +7,11 @@ import requests
 app = Flask(__name__)
 
 
+@app.route("/")
+def hello_world():
+    return render_template("index.html")
+
+
 @app.route("/submit3", methods=['POST'])
 def submit3():
     username = "ShuyueZhu"
