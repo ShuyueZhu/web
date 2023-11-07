@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash,  request
+from flask import Flask, render_template, request
 import re
 import math
 import requests
@@ -38,7 +38,6 @@ def submit3():
 @app.route("/submit4", methods=['POST'])
 def submit4():
     username = "ShuyueZhu"
-     # Accessing the GitHub API to obtain followers and user data for followers
     followers_url = f"https://api.github.com/users/{username}/followers"
     following_url = f"https://api.github.com/users/{username}/following"
     try:
