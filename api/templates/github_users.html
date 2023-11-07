@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub User's Followers and Following</title>
+</head>
+<body>
+    <h1>GitHub User's Followers and Following</h1>
+    
+    <h2>Followers:</h2>
+    <ul>
+        {% for follower in followers %}
+            <li>{{ follower.login }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Following:</h2>
+    <ul>
+        {% for following_user in following %}
+            <li>{{ following_user.login }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

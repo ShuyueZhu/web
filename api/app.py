@@ -2,95 +2,16 @@ from flask import Flask, render_template, redirect, url_for, flash,  request
 import re
 import math
 import requests
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Length
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
 
 
 app = Flask(__name__)
 
 
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-
-
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Sign Up')
-
-
-class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-@app.route("/")
-def hello_world():
-    return render_template("index.html")
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash('Your account has been created!', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', form=form)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user)
-            return redirect(url_for('home'))
-        else:
-            flash('Login failed. Please check your username and password.', 'danger')
-    return render_template('login.html', form=form)
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('hello_world'))
-
-
 @app.route("/submit3", methods=['POST'])
 def submit3():
-    u = "ShuyueZhu"
+    username = "ShuyueZhu"
     # get respiratory information
-    repo_response = requests.get(f"https://api.github.com/users/{u}/repos")
+    repo_response = requests.get(f"https://api.github.com/users/{username}/repos")
     if repo_response.status_code == 200:
         repos = repo_response.json()
     else:
@@ -99,7 +20,7 @@ def submit3():
     # get lastest information
     commit_info = {}
     for repo in repos:
-        commits_response = requests.get(f"https://api.github.com/repos/{u}/{repo['name']}/commits")
+        commits_response = requests.get(f"https://api.github.com/repos/{username}/{repo['name']}/commits")
         if commits_response.status_code == 200:
             commits = commits_response.json()
             if commits:
@@ -112,6 +33,23 @@ def submit3():
                 }
 
     return render_template("name.html", repos=repos, commit_info=commit_info)
+
+
+@app.route("/submit4", methods=['POST'])
+def submit4():
+    username = "ShuyueZhu"
+     # Accessing the GitHub API to obtain followers and user data for followers
+    followers_url = f"https://api.github.com/users/{username}/followers"
+    following_url = f"https://api.github.com/users/{username}/following"
+    try:
+        followers_response = requests.get(followers_url)
+        following_response = requests.get(following_url)
+        followers_data = followers_response.json()
+        following_data = following_response.json()
+    except requests.exceptions.RequestException as e:
+        return f"Error: {e}"
+
+    return render_template("github_users.html", followers=followers_data, following=following_data)
 
 
 @app.route("/submit", methods=["POST"])
