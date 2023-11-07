@@ -9,12 +9,8 @@ app = Flask(__name__)
 
 def get_github_repos(username):
     url = f"https://api.github.com/users/{username}/repos"
-
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        return []
+    response = requests.get(url)
+    response.raise_for_status()
 
     if response.status_code == 200:
         repos = response.json()
