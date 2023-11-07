@@ -7,6 +7,22 @@ import requests
 app = Flask(__name__)
 
 
+def get_github_repos(username):
+    url = f"https://api.github.com/users/{username}/repos"
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        return []
+
+    if response.status_code == 200:
+        repos = response.json()
+        return repos
+    else:
+        return []
+
+
 @app.route("/")
 def hello_world():
     return render_template("index.html")
@@ -14,13 +30,9 @@ def hello_world():
 
 @app.route("/submit3", methods=['POST'])
 def submit3():
-    username = "ShuyueZhu"
+    username = request.form['username']
     # get respiratory information
-    repo_response = requests.get(f"https://api.github.com/users/{username}/repos")
-    if repo_response.status_code == 200:
-        repos = repo_response.json()
-    else:
-        repos = []
+    repos = get_github_repos(username)
 
     # get lastest information
     commit_info = {}
@@ -42,7 +54,7 @@ def submit3():
 
 @app.route("/submit4", methods=['POST'])
 def submit4():
-    username = "ShuyueZhu"
+    username = request.form['username']
     followers_url = f"https://api.github.com/users/{username}/followers"
     following_url = f"https://api.github.com/users/{username}/following"
     try:
