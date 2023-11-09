@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import re
 import math
 import requests
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -62,6 +63,26 @@ def submit4():
         return f"Error: {e}"
 
     return render_template("github_users.html", followers=followers_data, following=following_data)
+
+
+@app.route('/submit5', methods=['POST'])
+def submit5():
+    query = request.form['search_value']
+    url = f'https://api.github.com/search/repositories?q={query}'
+    headers = {
+        'Accept': 'application/vnd.github.v3+json'
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            repos = data['items']
+            return render_template('search.html', query=query, repos=repos)
+        else:
+            return jsonify(error='Error: Unable to fetch data from GitHub API')
+    except requests.exceptions.RequestException as e:
+        return jsonify(error=f'Error: {str(e)}')
 
 
 @app.route("/submit", methods=["POST"])
